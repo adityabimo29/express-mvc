@@ -41,8 +41,12 @@ module.exports = {
     postData:(req,res) => {
 
         try {
+            const newData = req.body;
+            const newFile = req.file;
+
+            data.push({...newData,avatar:newFile.path});
             console.log(req.file);
-            res.send({message:'sip',data:req.body});
+            res.send({message:'sip',data:data});
         } catch (error) {
             console.log(error)
         }

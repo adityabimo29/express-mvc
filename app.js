@@ -21,4 +21,5 @@ app.use('/', indexRouter);
 //app.use('/users', usersRouter);
 app.use('/todos',todosRouter);
 app.use('/users',usersRouter);
+app.use('/assets',express.static('assets'));
 module.exports = app;
