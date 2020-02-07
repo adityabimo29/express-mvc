@@ -25,7 +25,8 @@ module.exports = {
                 newData.push(item)
             }
         })
-
+        
+        
         data = newData ;
         console.log(data);
         res.send({message:'Users has been updated.',data:data});
@@ -36,5 +37,15 @@ module.exports = {
         data = newData;
         //res.json(data);
         res.send({message:'User has been deleted.',data:data});
+    },
+    postData:(req,res) => {
+
+        try {
+            console.log(req.file);
+            res.send({message:'sip',data:req.body});
+        } catch (error) {
+            console.log(error)
+        }
+        
     }
 }

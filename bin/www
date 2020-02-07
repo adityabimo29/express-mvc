@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-require('dotenv').config();
+
 /**
  * Module dependencies.
  */
@@ -7,12 +7,12 @@ require('dotenv').config();
 var app = require('../app');
 var debug = require('debug')('test:server');
 var http = require('http');
-
+const {PORT} = require('../config');
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3002');
+var port = normalizePort(PORT || '3002');
 app.set('port', port);
 
 /**
