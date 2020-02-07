@@ -7,6 +7,6 @@ router.get('/',getAll);
 router.put('/edit/:email',updateByEmail);
 router.get('/:email',getByEmail);
 router.delete('/delete/:email',deleteByEmail);
-router.post('/',upload.single('avatar'),postData);
+router.post('/',upload.array('avatar',2),postData);
 
 module.exports = router;
