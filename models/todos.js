@@ -1,28 +1,18 @@
-const todos = [
-    {
-        id:1,
-        todo:"javascript"
-    },
-    {
-        id:2,
-        todo:"ruby"
-    },
-    {
-        id:3,
-        todo:"rust"
-    },
-    {
-        id:4,
-        todo:"php"
-    },
-    {
-        id:5,
-        todo:"java"
-    },
-    {
-        id:6,
-        todo:"dart"
-    },
-]
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-module.exports = todos;
+const todoSchema = new Schema({
+    todo: {
+        type:String
+    },
+    status:{
+        type:String,
+        required:true,
+        default:"Progress"
+    }
+})
+
+
+const Todos = mongoose.model("todos",todoSchema);
+
+module.exports = Todos;

@@ -1,39 +1,68 @@
 // Controller Todos
-let data = require('../../models/todos');
+let model = require('../../models');
 
 module.exports = {
-    getAll:(req,res) =>{
-        res.status(200).send({message:'List All Todos',data:data});
-    },
-    getById:(req,res)=>{
-        const id = req.params.id;
-        const item = data.find(_item => _item.id === parseInt(id) );
-        if (item) {
-            res.send({data:item});
-        } else {
-            res.send({ message: `id ${id} doesn't exist`})
+    getAll: async (req,res) =>{
+        try {
+            const result = await model.Todos.find({});
+            res.status(200).send({message:'List All Todos',data:result});
+        } catch (error) {
+            console.log(error)
         }
     },
-    updateById:(req,res)=>{
-        const newData = [];
-
-        data.forEach(item => {
-            if(item.id === parseInt(req.params.id) ){
-                newData.push(req.body)
-            }else{
-                newData.push(item)
-            }
-        })
-
-        data = newData ;
-        console.log(data);
-        res.send({message:'Todos has been updated.',data:data});
+    addData:async(req,res) => {
+        try {
+            const result = await model.Todos.create(req.body);
+            res.status(200).send({message:'List has been created.',data:result});
+        } catch (error) {
+            console.log(error)
+        }
     },
-    deleteById:(req,res) => {
-        const newData = data.filter(item => item.id !== parseInt(req.params.id) );
-        data = newData;
-        //res.json(data);
-        res.send({message:'List has been deleted.',data:data});
+    getById:async (req,res)=>{
+        try {
+            const idku = req.params.id;
+            await model.Todos.findById(idku, (err,docs) => {
+                if(err){
+                    console.log(err)
+                }
+                res.status(200).send({
+                    message:"Get By Id",
+                    data : docs
+    
+                })
+            });
+            
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    updateById:async (req,res)=>{
+        try {
+            const data = req.body;
+            await model.Todos.findByIdAndUpdate(req.params.id,data, (err,dtuser) => {
+                res.status(200).send({
+                    message:"Todos has been updated",
+                    data : dtuser
+    
+                })
+            });
+            
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    deleteById:async (req,res) => {
+        try {
+            await model.Todos.deleteOne({_id:req.params.id},(err,result) => {
+                if(err){
+                    console.log(err)
+                }
+                res.status(200).send({message:`Your ${req.params.id} has been deleted.`,data:result})
+            })
+
+        } catch (error) {
+            console.log(error)
+        }
     }
 
 }

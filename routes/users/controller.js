@@ -1,55 +1,97 @@
 // Controller Users
-let data = require('../../models/users');
+let model = require('../../models');
 
 module.exports = {
-    getAll:(req,res) =>{
-        res.status(200).send(data);
-    },
-    getByEmail:(req,res)=>{
-        const email = req.params.email;
-        const item = data.find(_item => _item.email === email);
-        if (item) {
-            res.json(item);
-        } else {
-            res.json({ message: `email ${email} doesn't exist`})
-        }
-        //res.send({message:'this is get by id'})
-    },
-    updateByEmail:(req,res)=>{
-        const newData = [];
-
-        data.forEach(item => {
-            if(item.email === req.params.email){
-                newData.push(req.body)
-            }else{
-                newData.push(item)
-            }
-        })
-        
-        
-        data = newData ;
-        console.log(data);
-        res.send({message:'Users has been updated.',data:data});
-
-    },
-    deleteByEmail:(req,res)=>{
-        const newData = data.filter(item => item.email !== req.params.email );
-        data = newData;
-        //res.json(data);
-        res.send({message:'User has been deleted.',data:data});
-    },
-    postData:(req,res) => {
-
+    getAll: async (req,res) =>{
         try {
-            const newData = req.body;
-            const newFile = req.file;
-
-            data.push({...newData,avatar:newFile.path});
-            console.log(req.file);
-            res.send({message:'sip',data:data});
+            const result = await model.Users.find({});
+            res.status(200).send({message:'List All Users',data:result});
         } catch (error) {
             console.log(error)
         }
+    },
+    postData: async (req,res) => {
+        try {
+            const dt = req.body;
+            const file = req.file;
+            const result = await model.Users.create({
+                ...dt,
+                avatar:file === undefined ? null : file.path        
+            });
+            res.status(200).send({
+                message:"New Users has been success",
+                data : result
+
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    getByEmail:async (req,res)=>{
+        try {
+            const email = req.params.email;
+            await model.Users.find({email:email}, (err,docs) => {
+                if(err){
+                    console.log(err)
+                }
+                res.status(200).send({
+                    message:"Get By Email",
+                    data : docs
+    
+                })
+            });
+            
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+    updateByEmail: async (req,res)=>{
+    
+        try {
+            const data = req.body;
+            const email = req.params.email;
+            await model.Users.findOneAndUpdate({email:email},data,{new:true}, (err,dtuser) => {
+                res.status(200).send({
+                    message:"Users has been updated",
+                    data : dtuser
+    
+                })
+            });
+            
+        } catch (error) {
+            console.log(error)
+        }
+
+
+    },
+    deleteByEmail: async(req,res)=>{
+
+        try {
+            await model.Users.deleteOne({email:req.params.email},(err,result) => {
+                if(err){
+                    console.log(err)
+                }
+                res.status(200).send({message:`Your ${req.params.email} has been deleted.`,data:result})
+            })
+
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+    // postData:(req,res) => {
+
+    //     try {
+    //         const newData = req.body;
+    //         const newFile = req.file;
+
+    //         data.push({...newData,avatar:newFile.path});
+    //         console.log(req.file);
+    //         res.send({message:'sip',data:data});
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
         
-    }
+    // }
 }
