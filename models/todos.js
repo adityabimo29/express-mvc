@@ -9,6 +9,10 @@ const todoSchema = new Schema({
         type:String,
         required:true,
         default:"Progress"
+    },
+    user:{
+        type:Schema.Types.ObjectId,
+        ref:"users"
     }
 })
 

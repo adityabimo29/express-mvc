@@ -4,13 +4,13 @@ let model = require('../../models');
 module.exports = {
     getAll: async (req,res) =>{
         try {
-            const result = await model.Todos.find({});
+            const result = await model.Todos.find({}).populate('user','username email');
             res.status(200).send({message:'List All Todos',data:result});
         } catch (error) {
             console.log(error)
         }
     },
-    addData:async(req,res) => {
+    addData:async (req,res) => {
         try {
             const result = await model.Todos.create(req.body);
             res.status(200).send({message:'List has been created.',data:result});
