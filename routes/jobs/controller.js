@@ -4,7 +4,9 @@ module.exports = {
     addPost: async (req,res) =>{
         try {
             const dt = req.body;
-            const result = await Jobs.create(dt);
+            const result = await Jobs.create({
+                ...dt
+            });
             res.status(200).send({
                 message:"Jobs has been successfully added.",
                 data : result
