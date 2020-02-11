@@ -9,6 +9,8 @@ var indexRouter = require('./routes/index');
 //var usersRouter = require('./routes/users');
 var todosRouter = require('./routes/todos');
 var usersRouter = require('./routes/users');
+var jobsRouter = require('./routes/jobs');
+
 var app = express();
 app.use(cors());
 app.use(logger('dev'));
@@ -21,5 +23,6 @@ app.use('/', indexRouter);
 //app.use('/users', usersRouter);
 app.use('/todos',todosRouter);
 app.use('/users',usersRouter);
+app.use('/jobs',jobsRouter);
 app.use('/assets',express.static('assets'));
 module.exports = app;
