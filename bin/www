@@ -9,8 +9,9 @@ var debug = require('debug')('test:server');
 var http = require('http');
 const mongoose = require('mongoose');
 const {PORT} = require('../config');
-//mongodb+srv://porus:porusruby@cluster0-rusah.mongodb.net/test?retryWrites=true&w=majority
-mongoose.connect('mongodb://localhost:27017/todos',{useNewUrlParser:true,useUnifiedTopology:true})
+//mongodb://localhost:27017/todos
+//
+mongoose.connect('mongodb+srv://porus:porusruby@cluster0-rusah.mongodb.net/test?retryWrites=true&w=majority',{useNewUrlParser:true,useUnifiedTopology:true})
 .then(() => {
   console.log('Database connected');
 })
