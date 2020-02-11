@@ -10,7 +10,7 @@ module.exports = {
             console.log(error)
         }
     },
-    addData:async (req,res) => {
+    addData:async(req,res) => {
         try {
             const result = await model.Todos.create(req.body);
             res.status(200).send({message:'List has been created.',data:result});
@@ -21,16 +21,13 @@ module.exports = {
     getById:async (req,res)=>{
         try {
             const idku = req.params.id;
-            await model.Todos.findById(idku, (err,docs) => {
-                if(err){
-                    console.log(err)
-                }
-                res.status(200).send({
-                    message:"Get By Id",
-                    data : docs
-    
-                })
-            });
+            let result = await model.Todos.findById(idku);
+            
+            res.status(200).send({
+                message:"Get By Id",
+                data : result
+
+            })
             
         } catch (error) {
             console.log(error)

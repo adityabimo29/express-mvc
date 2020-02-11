@@ -1,11 +1,12 @@
 // Controller Users
 let model = require('../../models');
+const {hashPassword} = require('../../helper');
 
 module.exports = {
     getAll: async (req,res) =>{
         try {
             const result = await model.Users.find({});
-            res.status(200).send({message:'List All Users',data:result});
+            res.status(200).send(result);
         } catch (error) {
             console.log(error)
         }
@@ -14,9 +15,12 @@ module.exports = {
         try {
             const dt = req.body;
             const file = req.file;
+            const hash = await hashPassword(dt.password);
+
             const result = await model.Users.create({
                 ...dt,
-                avatar:file === undefined ? null : file.path        
+                avatar:file === undefined ? null : file.path,
+                password:hash    
             });
             res.status(200).send({
                 message:"New Users has been success",
