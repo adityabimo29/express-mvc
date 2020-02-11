@@ -1,6 +1,6 @@
 // Controller Users
 let model = require('../../models');
-const {hashPassword} = require('../../helper');
+const {hashPassword , comparedPassword} = require('../../helper');
 
 module.exports = {
     getAll: async (req,res) =>{
@@ -27,6 +27,23 @@ module.exports = {
                 data : result
 
             })
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    login:async (req,res)=>{
+        try {
+            const result = await model.Users.findOne({email:req.body.email});
+            const compared = await comparedPassword(req.body.password , result.password);
+            if(compared){
+                res.status(200).send({
+                    message:'You are succesfully to login'
+                })
+            }else{
+                res.status(500).send({
+                    message:'Password seems wrong'
+                })
+            }
         } catch (error) {
             console.log(error)
         }

@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const {upload} = require('../../config');
-const {getAll,updateByEmail,deleteByEmail,getByEmail,postData} = require('./controller')
+const {getAll,updateByEmail,deleteByEmail,getByEmail,postData ,login} = require('./controller')
 
 router.get('/',getAll);
 router.post('/add',postData);
 router.put('/edit/:email',updateByEmail);
 router.get('/:email',getByEmail);
 router.delete('/delete/:email',deleteByEmail);
+router.post('/login',login);
 
 // Upload files > 1
 // router.post('/',upload.fields([
