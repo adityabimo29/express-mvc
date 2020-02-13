@@ -37,8 +37,11 @@ module.exports = {
             const result = await model.Users.findOne({email:req.body.email});
             const compared = await comparedPassword(req.body.password , result.password);
             if(compared){
+                const token = jwt.sign({result},"SECRET");
+
                 res.status(200).send({
-                    message:'You are succesfully to login'
+                    message:'You are succesfully to login',
+                    data:token
                 })
             }else{
                 res.status(500).send({
