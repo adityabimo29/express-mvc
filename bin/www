@@ -9,13 +9,7 @@ var debug = require('debug')('test:server');
 var http = require('http');
 const {PORT,db} = require('../config');
 
-if(db) {
-  server.listen(port,()=>{
-    console.log('This app listen to mongo database')
-  })
-}else{
 
-}
 /**
  * Get port from environment and store in Express.
  */
@@ -32,10 +26,15 @@ var server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
+if(db) {
+  server.listen(port,()=>{
+    console.log('This app listen to mongo database');
+  })
+}else{
+  server.on('error', onError);
+  server.on('listening', onListening);
+}
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.

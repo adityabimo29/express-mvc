@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require("cors");
-
+const expressJWT = require('express-jwt');
 var indexRouter = require('./routes/index');
 //var usersRouter = require('./routes/users');
 var todosRouter = require('./routes/todos');
@@ -18,6 +18,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(expressJWT({secret:'SECRET'}));
+app.use((err,req,res,next)=>{
+    if(err.name === 'UnauthorizedError'){
+        return res.status(401).send({message:'You are not member'})
+    }else{
+        return next();
+    }
+})
 
 app.use('/', indexRouter);
 //app.use('/users', usersRouter);
