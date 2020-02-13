@@ -7,17 +7,15 @@
 var app = require('../app');
 var debug = require('debug')('test:server');
 var http = require('http');
-const mongoose = require('mongoose');
 const {PORT} = require('../config');
-//mongodb://localhost:27017/todos
-//
-mongoose.connect('mongodb+srv://porus:porusruby@cluster0-rusah.mongodb.net/test?retryWrites=true&w=majority',{useNewUrlParser:true,useUnifiedTopology:true})
-.then(() => {
-  console.log('Database connected');
-})
-.catch(error => {
-  console.log(error);
-})
+
+if(db) {
+  server.listen(port,()=>{
+    console.log('This app listen to mongo database')
+  })
+}else{
+
+}
 /**
  * Get port from environment and store in Express.
  */

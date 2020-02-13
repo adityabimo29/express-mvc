@@ -1,6 +1,7 @@
 // Controller Users
 let model = require('../../models');
 const {hashPassword , comparedPassword} = require('../../helper');
+const jwt = require('jsonwebtoken');
 
 module.exports = {
     getAll: async (req,res) =>{
