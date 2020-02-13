@@ -21,7 +21,7 @@ module.exports = {
             const result = await model.Users.create({
                 ...dt,
                 avatar:file === undefined ? null : file.path,
-                password:hash    
+                password:hash
             });
             res.status(200).send({
                 message:"New Users has been success",
@@ -39,14 +39,9 @@ module.exports = {
             if(compared){
                 const {firstname,username,email} = result;
                 const token = jwt.sign({firstname,username,email},"SECRET",{expiresIn:'60s'});
-                res.status(200).send({
-                    message:'You are succesfully to login',
-                    data:token
-                })
+                res.status(200).send(token)
             }else{
-                res.status(500).send({
-                    message:'Password seems wrong'
-                })
+                res.status(200).send('gagal');
             }
         } catch (error) {
             console.log(error)
@@ -62,17 +57,17 @@ module.exports = {
                 res.status(200).send({
                     message:"Get By Email",
                     data : docs
-    
+
                 })
             });
-            
+
         } catch (error) {
             console.log(error)
         }
 
     },
     updateByEmail: async (req,res)=>{
-    
+
         try {
             const data = req.body;
             const email = req.params.email;
@@ -80,10 +75,10 @@ module.exports = {
                 res.status(200).send({
                     message:"Users has been updated",
                     data : dtuser
-    
+
                 })
             });
-            
+
         } catch (error) {
             console.log(error)
         }
@@ -117,6 +112,6 @@ module.exports = {
     //     } catch (error) {
     //         console.log(error)
     //     }
-        
+
     // }
 }
