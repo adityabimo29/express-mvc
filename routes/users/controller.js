@@ -38,7 +38,7 @@ module.exports = {
             const compared = await comparedPassword(req.body.password , result.password);
             if(compared){
                 const {firstname,username,email} = result;
-                const token = jwt.sign({firstname,username,email},"SECRET");
+                const token = jwt.sign({firstname,username,email},"SECRET",{expiresIn:'60s'});
                 res.status(200).send({
                     message:'You are succesfully to login',
                     data:token

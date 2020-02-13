@@ -18,7 +18,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(expressJWT({secret:'SECRET'}));
+
+app.use(expressJWT({secret:'SECRET'}).unless({
+    path:[
+        {url: '/', methods:['GET']},
+        {
+            url:'/users/login',
+            methods:['POST']
+        }
+    ]
+}));
+
 app.use((err,req,res,next)=>{
     if(err.name === 'UnauthorizedError'){
         return res.status(401).send({message:'You are not member'})
